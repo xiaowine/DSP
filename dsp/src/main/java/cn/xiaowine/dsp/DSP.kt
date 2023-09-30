@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
-import android.content.pm.ChangedPackages
 import android.util.Log
 import cn.xiaowine.dsp.annotation.SerializeConfig
 import cn.xiaowine.dsp.data.MODE
@@ -13,11 +12,12 @@ import cn.xiaowine.dsp.delegate.SerialLazyDelegate
 import de.robv.android.xposed.XSharedPreferences
 import kotlin.properties.ReadWriteProperty
 
-abstract class DSP(private val application: Application,val packageName: String, val isXSPf: Boolean = false) {
+abstract class DSP(private val application: Application?, private val packageName: String, val isXSPf: Boolean = false) {
     val sharedPreferences: SharedPreferences by lazy { getSPf()!! }
     private var key: String = ""
 
 
+    @Suppress("DEPRECATION")
     @SuppressLint("WrongConstant", "WorldReadableFiles")
     private fun getSPf(): SharedPreferences? {
         key = this::class.java.getAnnotation(SerializeConfig::class.java)?.key ?: error("key is empty")
@@ -29,9 +29,9 @@ abstract class DSP(private val application: Application,val packageName: String,
             return if (pref.file.canRead()) pref else null
         }
         return if (mode == MODE.HOOK) {
-            application.createDeviceProtectedStorageContext().getSharedPreferences(key, Context.MODE_WORLD_READABLE)
+            application!!.createDeviceProtectedStorageContext().getSharedPreferences(key, Context.MODE_WORLD_READABLE)
         } else {
-            application.getSharedPreferences(key, Context.MODE_PRIVATE)
+            application!!.getSharedPreferences(key, Context.MODE_PRIVATE)
         }
     }
 
