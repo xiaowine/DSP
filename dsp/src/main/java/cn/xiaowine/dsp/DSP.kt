@@ -1,7 +1,6 @@
 package cn.xiaowine.dsp
 
 import android.annotation.SuppressLint
-import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
 import android.util.Log
@@ -12,7 +11,7 @@ import cn.xiaowine.dsp.delegate.SerialLazyDelegate
 import de.robv.android.xposed.XSharedPreferences
 import kotlin.properties.ReadWriteProperty
 
-abstract class DSP(private val application: Application?, private val packageName: String, val isXSPf: Boolean = false) {
+abstract class DSP(private val context: Context?, private val packageName: String, val isXSPf: Boolean = false) {
     val sharedPreferences: SharedPreferences by lazy { getSPf()!! }
     private var key: String = ""
 
@@ -29,9 +28,9 @@ abstract class DSP(private val application: Application?, private val packageNam
             return if (pref.file.canRead()) pref else null
         }
         return if (mode == MODE.HOOK) {
-            application!!.createDeviceProtectedStorageContext().getSharedPreferences(key, Context.MODE_WORLD_READABLE)
+            context!!.createDeviceProtectedStorageContext().getSharedPreferences(key, Context.MODE_WORLD_READABLE)
         } else {
-            application!!.getSharedPreferences(key, Context.MODE_PRIVATE)
+            context!!.getSharedPreferences(key, Context.MODE_PRIVATE)
         }
     }
 
