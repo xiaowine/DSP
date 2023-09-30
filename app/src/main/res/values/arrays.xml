@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="need_module">
+        <item>com.android.systemui</item>
+<!--        <item>android</item>-->
+    </array>
+</resources>
