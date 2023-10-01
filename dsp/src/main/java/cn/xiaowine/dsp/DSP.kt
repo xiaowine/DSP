@@ -39,6 +39,21 @@ abstract class DSP(private val context: Context?, private val packageName: Strin
 
     inline fun <reified T> serialLazy(default: T? = null): ReadWriteProperty<Any, T> = SerialLazyDelegate(default, sharedPreferences, isXSPf)
 
+    @SuppressLint("ApplySharedPref")
+    fun save(pairs: Pair<String, Any>) {
+        sharedPreferences.edit().apply {
+            put(pairs.first, pairs.second)
+            commit()
+        }
+    }
+
+    fun saveLazy(pairs: Pair<String, Any>) {
+        sharedPreferences.edit().apply {
+            put(pairs.first, pairs.second)
+            apply()
+        }
+    }
+
 
     companion object {
         fun SharedPreferences.Editor.put(key: String, value: Any) {
