@@ -23,7 +23,15 @@ object DSP {
         this.isXSPf = isXSPf
         sharedPreferences = if (isXSPf) {
             val pref = XSharedPreferences(packageName, packageName)
-            if (pref.file.canRead()) pref else error("XSharedPreferences is null")
+            if (pref.file.canRead()) {
+                pref
+            } else {
+                if (pref.file.exists()) {
+                    error("XSharedPreferences can't read")
+                } else {
+                    error("XSharedPreferences not exists")
+                }
+            }
         } else {
             if (mode == MODE.HOOK) {
                 DSP.context.createDeviceProtectedStorageContext().getSharedPreferences(packageName, Context.MODE_WORLD_READABLE)
@@ -62,18 +70,6 @@ object DSP {
 
     @Suppress("UNCHECKED_CAST")
     fun <T> SharedPreferences.opt(key: String, defValue: T?): T {
-        return when (defValue) {
-            is String -> getString(key, defValue.toString()) as T
-            is Long -> getLong(key, defValue.toLong()) as T
-            is Int -> getInt(key, defValue) as T
-            is Boolean -> getBoolean(key, defValue) as T
-            is Float -> getFloat(key, defValue) as T
-            else -> defValue ?: throw IllegalArgumentException("defValue is null")
-        }
-    }
-
-    @Suppress("UNCHECKED_CAST")
-    fun <T> XSharedPreferences.opt(key: String, defValue: T?): T {
         return when (defValue) {
             is String -> getString(key, defValue.toString()) as T
             is Long -> getLong(key, defValue.toLong()) as T
