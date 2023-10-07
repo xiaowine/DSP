@@ -56,9 +56,7 @@ dependencies {
 ## 注意 若开启了 proguard 请保证 API 类不被混淆:
 
 ```shrinker_config
--keep class cn.xiaowine.dsp.annotation.**{*;}
 -keep class cn.xiaowine.dsp.data.**{*;}
--keep @cn.xiaowine.dsp.annotation.SerializeConfig class * {}
 ```
 
 ## Star History

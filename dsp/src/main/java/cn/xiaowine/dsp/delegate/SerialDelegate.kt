@@ -2,13 +2,15 @@ package cn.xiaowine.dsp.delegate
 
 import android.content.SharedPreferences
 import android.util.Log
-import cn.xiaowine.dsp.DSP.Companion.opt
-import cn.xiaowine.dsp.DSP.Companion.put
+import cn.xiaowine.dsp.DSP.opt
+import cn.xiaowine.dsp.DSP.isXSPf
+import cn.xiaowine.dsp.DSP.save
+import cn.xiaowine.dsp.DSP.sharedPreferences
 import de.robv.android.xposed.XSharedPreferences
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
-class SerialDelegate<T>(private val default: T?, private var sharedPreferences: SharedPreferences, private val isXSPf: Boolean) : ReadWriteProperty<Any, T> {
+class SerialDelegate<T>(private val default: T?) : ReadWriteProperty<Any, T> {
     private val spEditor: SharedPreferences.Editor
         get() = sharedPreferences.edit()
 
@@ -24,7 +26,7 @@ class SerialDelegate<T>(private val default: T?, private var sharedPreferences: 
         if (isXSPf) return
         val key = property.name
         spEditor.apply {
-            put(key, value as Any)
+            save(key to value as Any)
             commit()
         }
     }
