@@ -14,30 +14,24 @@ object DSP {
     private lateinit var context: Context
 
     lateinit var sharedPreferences: SharedPreferences
-    val isXSPf: Boolean
-        get() {
-            return try {
-                XSharedPreferences::class.java.name
-                true
-            } catch (_: NoClassDefFoundError) {
-                false
-            }
-        }
+    var isXSPf: Boolean = false
 
 
     @SuppressLint("WorldReadableFiles")
-    fun init(context: Context, packageName: String, mode: MODE = MODE.APP) {
+    fun init(context: Context, packageName: String, mode: MODE = MODE.APP, isXSPf: Boolean = false) {
         this.context = context
-        if (isXSPf) {
+        this.isXSPf = isXSPf
+        sharedPreferences = if (isXSPf) {
             val pref = XSharedPreferences(packageName, packageName)
-            sharedPreferences = if (pref.file.canRead()) pref else error("XSharedPreferences is null")
-            return
-        }
-        sharedPreferences = if (mode == MODE.HOOK) {
-            DSP.context.createDeviceProtectedStorageContext().getSharedPreferences(packageName, Context.MODE_WORLD_READABLE)
+            if (pref.file.canRead()) pref else error("XSharedPreferences is null")
         } else {
-            DSP.context.getSharedPreferences(packageName, Context.MODE_PRIVATE)
+            if (mode == MODE.HOOK) {
+                DSP.context.createDeviceProtectedStorageContext().getSharedPreferences(packageName, Context.MODE_WORLD_READABLE)
+            } else {
+                DSP.context.getSharedPreferences(packageName, Context.MODE_PRIVATE)
+            }
         }
+
     }
 
 

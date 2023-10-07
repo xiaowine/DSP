@@ -12,14 +12,10 @@ import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
 class SerialLazyDelegate<T>(private val default: T?) : ReadWriteProperty<Any, T> {
-    private val spEditor: SharedPreferences.Editor
-        get() = sharedPreferences.edit()
+
 
     override fun getValue(thisRef: Any, property: KProperty<*>): T = synchronized(this) {
         val key = property.name
-        if (isXSPf) {
-            return (sharedPreferences as XSharedPreferences).opt(key, default)
-        }
         return sharedPreferences.opt(key, default)
     }
 

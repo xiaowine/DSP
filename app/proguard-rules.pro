@@ -1,1 +1,1 @@
--keep class cn.xiaowine.dsp.hook.MainHook
+-keep class cn.xiaowine.dsp.demo.hook.MainHook

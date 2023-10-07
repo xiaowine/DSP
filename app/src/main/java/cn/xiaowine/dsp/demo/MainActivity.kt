@@ -1,10 +1,11 @@
-package cn.xiaowine.dsp
+package cn.xiaowine.dsp.demo
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
-import cn.xiaowine.dsp.config.Config
+import cn.xiaowine.dsp.DSP
+import cn.xiaowine.dsp.demo.config.Config
 import cn.xiaowine.dsp.data.MODE
 import kotlin.random.Random
 

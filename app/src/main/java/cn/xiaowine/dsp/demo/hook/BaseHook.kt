@@ -1,4 +1,4 @@
-package cn.xiaowine.dsp.hook
+package cn.xiaowine.dsp.demo.hook
 
 abstract class BaseHook {
     var isInit: Boolean = false

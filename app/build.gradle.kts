@@ -10,11 +10,11 @@ val localProperties = Properties()
 if (rootProject.file("local.properties").canRead())
     localProperties.load(rootProject.file("local.properties").inputStream())
 android {
-    namespace = "cn.xiaowine.dsp"
+    namespace = "cn.xiaowine.dsp.demo"
     compileSdk = 34
     val buildTime = System.currentTimeMillis()
     defaultConfig {
-        applicationId = "cn.xiaowine.dsp"
+        applicationId = "cn.xiaowine.dsp.demo"
         minSdk = 26
         targetSdk = 34
         versionCode = 1

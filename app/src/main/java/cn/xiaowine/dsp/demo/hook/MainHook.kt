@@ -1,8 +1,8 @@
-package cn.xiaowine.dsp.hook
+package cn.xiaowine.dsp.demo.hook
 
 
 import android.util.Log
-import cn.xiaowine.dsp.hook.app.SystemUi
+import cn.xiaowine.dsp.demo.hook.app.SystemUi
 import com.github.kyuubiran.ezxhelper.EzXHelper
 import de.robv.android.xposed.IXposedHookLoadPackage
 import de.robv.android.xposed.IXposedHookZygoteInit

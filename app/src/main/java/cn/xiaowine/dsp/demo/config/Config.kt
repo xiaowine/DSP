@@ -1,4 +1,4 @@
-package cn.xiaowine.dsp.config
+package cn.xiaowine.dsp.demo.config
 
 import android.content.Context
 import cn.xiaowine.dsp.DSP
