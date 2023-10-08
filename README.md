@@ -1,6 +1,6 @@
 # DSP
 
-#### 这是SharedPreferences和XSharedPreferences的包装
+#### 一个SharedPreferences和XSharedPreferences的封装库
 
 ---
 
