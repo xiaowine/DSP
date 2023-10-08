@@ -2,10 +2,10 @@
 
 package cn.xiaowine.dsp
 
+
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
-import android.util.Log
 import cn.xiaowine.dsp.data.MODE
 import de.robv.android.xposed.XSharedPreferences
 
@@ -18,28 +18,33 @@ object DSP {
 
 
     @SuppressLint("WorldReadableFiles")
-    fun init(context: Context, packageName: String, mode: MODE = MODE.APP, isXSPf: Boolean = false) {
+    fun init(context: Context, packageName: String, mode: MODE = MODE.APP, isXSPf: Boolean = false): Boolean {
         this.context = context
         this.isXSPf = isXSPf
-        sharedPreferences = if (isXSPf) {
-            val pref = XSharedPreferences(packageName, packageName)
-            if (pref.file.canRead()) {
-                pref
-            } else {
-                if (pref.file.exists()) {
-                    error("XSharedPreferences can't read")
+        return try {
+            if (isXSPf) {
+                val pref = XSharedPreferences(packageName, packageName)
+                if (pref.file.canRead()) {
+                    sharedPreferences = pref
                 } else {
-                    error("XSharedPreferences not exists")
+                    if (!pref.file.exists()) {
+                        error("XSharedPreferences can't read")
+                    } else {
+                        error("XSharedPreferences not exists")
+                    }
+                }
+            } else {
+                sharedPreferences = if (mode == MODE.HOOK) {
+                    DSP.context.createDeviceProtectedStorageContext().getSharedPreferences(packageName, Context.MODE_WORLD_READABLE)
+                } else {
+                    DSP.context.getSharedPreferences(packageName, Context.MODE_PRIVATE)
                 }
             }
-        } else {
-            if (mode == MODE.HOOK) {
-                DSP.context.createDeviceProtectedStorageContext().getSharedPreferences(packageName, Context.MODE_WORLD_READABLE)
-            } else {
-                DSP.context.getSharedPreferences(packageName, Context.MODE_PRIVATE)
-            }
+            true
+        } catch (e: Exception) {
+            e.printStackTrace()
+            false
         }
-
     }
 
 
