@@ -1,6 +1,6 @@
 # DSP
 
-#### 这是SharedPreferences和XSharedPreferences的包装
+#### 一个SharedPreferences和XSharedPreferences的封装库
 
 ---
 
@@ -50,7 +50,7 @@ dependencies {
 }
 ```
 
-### 3.具体使用请见[Demo](/app/src/main/java/cn/xiaowine/dsp/MainActivity.kt)
+### 3.具体使用请见[Demo](/app/src/main/java/cn/xiaowine/dsp/demo/MainActivity.kt)
 ---
 
 ## 注意 若开启了 proguard 请保证 API 类不被混淆:
