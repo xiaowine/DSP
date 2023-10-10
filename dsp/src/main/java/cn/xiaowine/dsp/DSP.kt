@@ -11,15 +11,13 @@ import de.robv.android.xposed.XSharedPreferences
 
 @SuppressLint("StaticFieldLeak")
 object DSP {
-    private lateinit var context: Context
 
     lateinit var sharedPreferences: SharedPreferences
     var isXSPf: Boolean = false
 
 
     @SuppressLint("WorldReadableFiles")
-    fun init(context: Context, packageName: String, mode: MODE = MODE.APP, isXSPf: Boolean = false): Boolean {
-        this.context = context
+    fun init(context: Context?, packageName: String, mode: MODE = MODE.APP, isXSPf: Boolean = false): Boolean {
         this.isXSPf = isXSPf
         return try {
             if (isXSPf) {
@@ -34,10 +32,11 @@ object DSP {
                     }
                 }
             } else {
+                if (context == null) error("context is null")
                 sharedPreferences = if (mode == MODE.HOOK) {
-                    DSP.context.createDeviceProtectedStorageContext().getSharedPreferences(packageName, Context.MODE_WORLD_READABLE)
+                    context.createDeviceProtectedStorageContext().getSharedPreferences(packageName, Context.MODE_WORLD_READABLE)
                 } else {
-                    DSP.context.getSharedPreferences(packageName, Context.MODE_PRIVATE)
+                    context.getSharedPreferences(packageName, Context.MODE_PRIVATE)
                 }
             }
             true
